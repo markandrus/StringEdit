@@ -9,11 +9,11 @@ Usage
 
 You can either build with `ghc Main.hs -O2` and then run
 
-> ./Main word1 word2 [word3 ...]
+	./Main word1 word2 [word3 ...]
 
 Or you can issue
 
-> ./Main word1 word2 [word3 ...]
+	./Main word1 word2 [word3 ...]
 
 Each command will calculate the minimum `String` edit between all adjacent pairs
 of `String`s given.
@@ -47,22 +47,22 @@ Example Program
 
 An example program run:
 
-> $ runhaskell StringEdit.hs thenameofthegame theresmyname
-> Minimum String Edit Cost: 7.0
-> Minimum String Edit: 
-> thenameofthegame
-> ther  e smy name
+	$ runhaskell StringEdit.hs thenameofthegame theresmyname
+	Minimum String Edit Cost: 7.0
+	Minimum String Edit: 
+	thenameofthegame
+	ther  e smy name
 
 Also note that the minimum String edit between A and B is the same as that
 between B and A, as expected.
 
-> $ runhaskell StringEdit.hs ninakushukuru unamshukuru ninakushukuru
-> Minimum String Edit Cost: 3.1
-> Minimum String Edit: 
-> ninakushukuru
->  unam shukuru
-> 
-> Minimum String Edit Cost: 3.1
-> Minimum String Edit: 
->  unam shukuru
-> ninakushukuru
+	$ runhaskell StringEdit.hs ninakushukuru unamshukuru ninakushukuru
+	Minimum String Edit Cost: 3.1
+	Minimum String Edit: 
+	ninakushukuru
+	 unam shukuru
+	
+	Minimum String Edit Cost: 3.1
+	Minimum String Edit: 
+	 unam shukuru
+	ninakushukuru
