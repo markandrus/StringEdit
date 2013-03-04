@@ -1,8 +1,8 @@
 StringEdit
 ==========
 
-Note: the following is transcribed from the `Haddock` documentation. For a more
-complete (and prettier) overview, please see `doc/StringEdit.html`.
+_The following is transcribed from the `Haddock` documentation. For a more
+complete (and prettier) overview, please see `doc/StringEdit.html`._
 
 Usage
 -----
