@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>StringEdit</title><link href="ocean.css" rel="stylesheet" type="text/css" title="Ocean" /><script src="haddock-util.js" type="text/javascript"></script><script type="text/javascript">//<![CDATA[
+window.onload = function () {pageLoad();setSynopsis("mini_StringEdit.html");};
+//]]>
+</script></head><body><div id="package-header"><ul class="links" id="page-menu"><li><a href="index.html">Contents</a></li><li><a href="doc-index.html">Index</a></li></ul><p class="caption empty">&nbsp;</p></div><div id="content"><div id="module-header"><table class="info"><tr><th>Safe Haskell</th><td>Safe-Infered</td></tr></table><p class="caption">StringEdit</p></div><div id="table-of-contents"><p class="caption">Contents</p><ul><li><a href="#g:1">About
+</a><ul><li><a href="#g:2">Example Program
+</a></li></ul></li><li><a href="#g:3">Naive Implementation
+</a></li><li><a href="#g:4">Memoizing Implementation
+</a><ul><li><a href="#g:5"><code>String</code> Edit Recovery
+</a></li></ul></li></ul></div><div id="synopsis"><p id="control.syn" class="caption expander" onclick="toggleSection('syn')">Synopsis</p><ul id="section.syn" class="hide" onclick="toggleSection('syn')"><li class="src short"><a href="#v:cost">cost</a> :: Char -&gt; Char -&gt; Float</li><li class="src short"><a href="#v:main">main</a> :: IO ()</li><li class="src short"><a href="#v:naiveStringEditDist">naiveStringEditDist</a> :: String -&gt; String -&gt; Float</li><li class="src short"><a href="#v:memoStringEditDist">memoStringEditDist</a> :: String -&gt; String -&gt; State (Map (String, String) Float) Float</li><li class="src short"><a href="#v:calcStringEditDist">calcStringEditDist</a> :: String -&gt; String -&gt; State (Map (String, String) Float) Float</li><li class="src short"><a href="#v:stringEditDist">stringEditDist</a> :: String -&gt; String -&gt; Float</li><li class="src short"><a href="#v:writeStringEdit">writeStringEdit</a> :: String -&gt; String -&gt; Map (String, String) Float -&gt; [(Maybe Char, Maybe Char)]</li><li class="src short"><a href="#v:stringEdit">stringEdit</a> :: String -&gt; String -&gt; [(Maybe Char, Maybe Char)]</li><li class="src short"><a href="#v:showStringEdit">showStringEdit</a> :: [(Maybe Char, Maybe Char)] -&gt; String</li></ul></div><div id="interface"><h1 id="g:1">About
+</h1><div class="doc"><p>This package provides functions for calculating a <code>String</code> edit of
+ minimum distance between two <code>String</code>s (the notion of distance or <code><a href="StringEdit.html#v:cost">cost</a></code> here
+ is synonymous with <em>Levenshtein distance</em>). That is, given two <code>String</code>s, for
+ each character, we can either associate the two according to some <code><a href="StringEdit.html#v:cost">cost</a></code>
+ function or insert/delete a character from one of the <code>String</code>s with some
+ penalty (in this case, 1). Then we want to find a <code>String</code> edit of minimum
+ distance.
+</p><p>Included is a naive implementation that takes exponential time, as well as a
+ memoizing implementation that takes <em>O(nm)</em> time (where <em>n</em> and <em>m</em> are the
+ lengths of each word). Additionally, the memoizing version allows us to
+ recover a <code>String</code> edit of minimum distance.
+</p></div><div class="top"><p class="src"><a name="v:cost" class="def">cost</a> :: Char -&gt; Char -&gt; Float</p><div class="doc"><p>Calculate the cost of aligning two characters:
+</p><ul><li> Vowel-to-vowel costs 0.5,
+</li><li> Vowel-to-consonant costs 1.2,
+</li><li> Consonant-to-consonant costs 0.6, and
+</li><li> Aligning the same characters costs 0.
+</li></ul></div></div><h2 id="g:2">Example Program
+</h2><div class="doc"><p>An example program run:
+</p><pre> $ runhaskell StringEdit.hs thenameofthegame theresmyname
+ Minimum String Edit Cost: 7.0
+ Minimum String Edit: 
+ thenameofthegame
+ ther  e smy name
+</pre><p>Also note that the minimum <code>String</code> edit between <code>A</code> and <code>B</code> is the same as
+ that between <code>B</code> and <code>A</code>, as expected.
+</p><pre> $ runhaskell StringEdit.hs ninakushukuru unamshukuru ninakushukuru
+ Minimum String Edit Cost: 3.1
+ Minimum String Edit: 
+ ninakushukuru
+  unam shukuru
+ 
+ Minimum String Edit Cost: 3.1
+ Minimum String Edit: 
+  unam shukuru
+ ninakushukuru
+</pre></div><div class="top"><p class="src"><a name="v:main" class="def">main</a> :: IO ()</p><div class="doc"><p>Calculates the minimum <code>String</code> edit between all adjacent pairs of
+ <code>String</code>s given.
+</p></div></div><h1 id="g:3">Naive Implementation
+</h1><div class="top"><p class="src"><a name="v:naiveStringEditDist" class="def">naiveStringEditDist</a> :: String -&gt; String -&gt; Float</p><div class="doc"><p>Exponential-time implementation of the <code>String</code> edit distance algorithm.
+</p></div></div><h1 id="g:4">Memoizing Implementation
+</h1><div class="top"><p class="src"><a name="v:memoStringEditDist" class="def">memoStringEditDist</a> :: String -&gt; String -&gt; State (Map (String, String) Float) Float</p><div class="doc"><p>Memoizing implementation of <code><a href="StringEdit.html#v:naiveStringEditDist">naiveStringEditDist</a></code>.
+</p></div></div><div class="top"><p class="src"><a name="v:calcStringEditDist" class="def">calcStringEditDist</a> :: String -&gt; String -&gt; State (Map (String, String) Float) Float</p><div class="doc"><p><em>O(nm)</em>. Calculate the <code>String</code> edit distance of two <code>String</code>s using
+ <code><a href="StringEdit.html#v:memoStringEditDist">memoStringEditDist</a></code> by building up the values of the memoization table from
+ back to front.
+</p></div></div><div class="top"><p class="src"><a name="v:stringEditDist" class="def">stringEditDist</a> :: String -&gt; String -&gt; Float</p><div class="doc"><p><em>O(nm)</em>. Calculate the <code>String</code> edit distance of two <code>String</code>s using
+ <code><a href="StringEdit.html#v:calcStringEditDist">calcStringEditDist</a></code>.
+</p></div></div><h2 id="g:5"><code>String</code> Edit Recovery
+</h2><div class="top"><p class="src"><a name="v:writeStringEdit" class="def">writeStringEdit</a> :: String -&gt; String -&gt; Map (String, String) Float -&gt; [(Maybe Char, Maybe Char)]</p><div class="doc"><p><em>O(n)</em>. Trace back through a precomputed memoization table to recover the
+ edit of minimum distance between two <code>String</code>s.
+</p></div></div><div class="top"><p class="src"><a name="v:stringEdit" class="def">stringEdit</a> :: String -&gt; String -&gt; [(Maybe Char, Maybe Char)]</p><div class="doc"><p><em>O(nm)</em>. Consruct the edit of minimum distance between two <code>String</code>s using
+ <code><a href="StringEdit.html#v:calcStringEditDist">calcStringEditDist</a></code> and <code><a href="StringEdit.html#v:writeStringEdit">writeStringEdit</a></code>.
+</p></div></div><div class="top"><p class="src"><a name="v:showStringEdit" class="def">showStringEdit</a> :: [(Maybe Char, Maybe Char)] -&gt; String</p><div class="doc"><p>Show a <code>String</code> edit.
+</p></div></div></div></div><div id="footer"><p>Produced by <a href="http://www.haskell.org/haddock/">Haddock</a> version 2.11.0</p></div></body></html>
