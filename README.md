@@ -13,7 +13,7 @@ You can either build with `ghc Main.hs -O2` and then run
 
 Or you can issue
 
-	./Main word1 word2 [word3 ...]
+	./runhaskell Main.hs word1 word2 [word3 ...]
 
 Each command will calculate the minimum `String` edit between all adjacent pairs
 of `String`s given.
